@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  # app:
+  #   container_name: todo_app
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - '3001:3000'
+  #   environment:
+  #     - HOST=0.0.0.0
+  #     - PORT=3000
+  #   depends_on:
+  #     - db
+
+  db:
+    image: mysql:latest
+    container_name: todo_db
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: todo_db
+      MYSQL_PASSWORD: root
+    ports:
+      - '3306:3306'

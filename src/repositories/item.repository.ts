@@ -1,0 +1,21 @@
+import {inject, Getter} from '@loopback/core';
+import {DefaultCrudRepository, repository, BelongsToAccessor} from '@loopback/repository';
+import {TodoListDataSource} from '../datasources';
+import {Item, ItemRelations, Todo} from '../models';
+import {TodoRepository} from './todo.repository';
+
+export class ItemRepository extends DefaultCrudRepository<
+  Item,
+  typeof Item.prototype.id,
+  ItemRelations
+> {
+
+  public readonly todo: BelongsToAccessor<Todo, typeof Item.prototype.id>;
+
+  constructor(
+    @inject('datasources.todo_list') dataSource: TodoListDataSource, @repository.getter('TodoRepository') protected todoRepositoryGetter: Getter<TodoRepository>,
+  ) {
+    super(Item, dataSource);
+    this.todo = this.createBelongsToAccessorFor('todo', todoRepositoryGetter,);
+  }
+}
