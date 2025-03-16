@@ -1,7 +1,7 @@
-import {inject, Getter} from '@loopback/core';
-import {DefaultCrudRepository, repository, HasManyRepositoryFactory} from '@loopback/repository';
+import {Getter, inject} from '@loopback/core';
+import {DefaultCrudRepository, HasManyRepositoryFactory, repository} from '@loopback/repository';
 import {TodoListDataSource} from '../datasources';
-import {Todo, TodoRelations, Item} from '../models';
+import {Item, Todo, TodoRelations} from '../models';
 import {ItemRepository} from './item.repository';
 
 export class TodoRepository extends DefaultCrudRepository<
@@ -17,5 +17,9 @@ export class TodoRepository extends DefaultCrudRepository<
   ) {
     super(Todo, dataSource);
     this.items = this.createHasManyRepositoryFactoryFor('items', itemRepositoryGetter,);
+  }
+
+  async softDelete(id: number): Promise<void> {
+    await this.updateById(id, {status: 'DELETED'});
   }
 }

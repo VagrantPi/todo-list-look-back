@@ -17,7 +17,9 @@ export class Todo extends Entity {
   @property({
     type: 'string',
     required: true,
-    enum: ['ACTIVE', 'INACTIVE', 'DELETED'],
+    jsonSchema: {
+      enum: ['ACTIVE', 'INACTIVE', 'DELETED'],
+    }
   })
   status: 'ACTIVE' | 'INACTIVE' | 'DELETED';
 
